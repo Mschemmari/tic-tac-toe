@@ -17,9 +17,23 @@ export const TURNS = {
   O: 'o'
 }
 
-function App() {
-  const [board, setBoard] = useState(Array(9).fill(null))
 
+function App() {
+  const [board, setBoard] = useState(() => {
+    return Array(9).fill(null)
+  })
+  const [turn, setTurn] = useState(() => {
+    return TURNS.X
+  })
+  const updateBoard = (index) => {
+    console.log('hola');
+    const newBoard = [...board]
+    newBoard[index] = turn
+    setBoard(newBoard)
+
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+    setTurn(newTurn)
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -30,12 +44,18 @@ function App() {
               <Square
                 key={index}
                 index={index}
-              // updateBoard={updateBoard}
+                updateBoard={updateBoard}
               >
-                {index}
+                {/* {console.log(board[index])} */}
+                {board[index]}
+                {/* {index} */}
               </Square>
             )
           })}
+        </View>
+        <View style={[styles.board, styles.turns]}>
+          <Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
+          <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
         </View>
       </View>
     </SafeAreaView>
@@ -67,6 +87,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
+    marginVertical: 10,
+  },
+  turns: {
+    gap: 10
   }
 });
 
