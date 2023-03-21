@@ -26,6 +26,7 @@ function App() {
   const [winner, setWinner] = useState(null)
 
   const updateBoard = (index) => {
+    if (board[index] || winner) return
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
@@ -52,16 +53,14 @@ function App() {
       <View>
         <Text style={styles.title}>Tic Tac Toe</Text>
         <View style={styles.board}>
-          {board.map((_, index) => {
+          {board.map((square, index) => {
             return (
               <Square
                 key={index}
                 index={index}
                 updateBoard={updateBoard}
               >
-                {/* {console.log(board[index])} */}
-                {board[index]}
-                {/* {index} */}
+                {square}
               </Square>
             )
           })}
