@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Dimensions } from 'react-native';
+import { checkWinnerFromBoard, checkEndGame } from './components/logic/board.js'
+import ConfettiCannon from 'react-native-confetti-cannon';
 import { Square } from './components/square'
 
 const width = Dimensions.get('window').width
@@ -22,18 +18,29 @@ function App() {
   const [board, setBoard] = useState(() => {
     return Array(9).fill(null)
   })
+
   const [turn, setTurn] = useState(() => {
     return TURNS.X
   })
+
+  const [winner, setWinner] = useState(null)
+
   const updateBoard = (index) => {
-    console.log('hola');
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
 
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+
+    const newWinner = checkWinnerFromBoard(newBoard)
+    if (newWinner) {
+      setWinner(newWinner)
+    } else if (checkEndGame(newBoard)) {
+      setWinner(false)
+    }
   }
+  console.log(winner);
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -57,6 +64,8 @@ function App() {
           <Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
           <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
         </View>
+        {winner && <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} />}
+
       </View>
     </SafeAreaView>
   );

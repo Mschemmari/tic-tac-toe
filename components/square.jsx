@@ -18,7 +18,6 @@ export const Square = ({ children, isSelected, updateBoard, index }) => {
 
 const styles = StyleSheet.create({
     square: {
-
         height: 100,
         width: 100,
         borderRadius: 5,
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
     number: {
         color: 'white',
         fontSize: 50,
-
     },
     isSelected: {
         color: '#fff',
