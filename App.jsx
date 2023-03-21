@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Dimensions } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { checkWinnerFromBoard, checkEndGame } from './components/logic/board.js'
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { Square } from './components/square'
@@ -40,6 +40,12 @@ function App() {
       setWinner(false)
     }
   }
+
+  const resetGame = () => {
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
+  }
   console.log(winner);
   return (
     <SafeAreaView style={styles.container}>
@@ -63,6 +69,9 @@ function App() {
         <View style={[styles.board, styles.turns]}>
           <Square isSelected={turn === TURNS.X}>{TURNS.X}</Square>
           <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
+        </View>
+        <View>
+          <Button onPress={resetGame} title='Empezar de nuevo'></Button>
         </View>
         {winner && <ConfettiCannon count={200} origin={{ x: -10, y: 0 }} />}
 
